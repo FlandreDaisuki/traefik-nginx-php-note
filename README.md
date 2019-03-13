@@ -16,7 +16,7 @@ DevOps 台灣的 tg 群推薦了 traefik 這個工具覺得不錯
 
 - 使用 Docker & Compose
 - 單機服務(非 cloud)
-- 很多服務都想要 :80 :443
+- 很多服務都想要 :80 :443，而且有很多個 docker-compose.yml (不寫在一起)
 
 ## 安裝 traefik
 
