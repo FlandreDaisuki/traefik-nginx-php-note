@@ -11,6 +11,7 @@
   - [安裝 nginx & php](#安裝-nginx--php)
   - [設置 nginx](#設置-nginx)
   - [部屬伺服器](#部屬伺服器)
+  - [實驗驗證](#實驗驗證)
 
 ## 需求前提
 
@@ -215,4 +216,90 @@ web
 /media/3TB/web $ curl https://flandre.tw/
 200 ok
 /media/3TB/web $
+```
+
+## 實驗驗證
+
+為了實驗是否可以讓另一個服務聽在 :80 並順利執行
+
+我寫了一個 Dockerfile 並 build 成 image：
+
+```dockerfile
+FROM python:3.7-alpine
+
+WORKDIR /root
+
+EXPOSE 80
+
+VOLUME ["/root"]
+
+CMD ["python", "-m", "http.server", "80"]
+```
+
+```sh
+$ docker build . -t python-http-server
+```
+
+另外創個資料夾 /media/3TB/web/w2 寫了個 docker-compose.yml 來起伺服器
+
+```yml
+version: "3.6"
+
+services:
+  py3-http-server:
+    image: py3-http-server
+    container_name: py3-http-server
+    restart: unless-stopped
+    networks:
+      - web # 跟 traefik 同一個
+    volumes:
+      - ".:/root"
+    labels:
+      - "traefik.docker.network=web"
+      - "traefik.enable=true"
+      - "traefik.basic.frontend.rule=Host:www.flandre.tw" # 另一個 domain，用 CNAME 指到同一個主機
+      - "traefik.basic.port=80" # image 聽 80
+      - "traefik.basic.protocol=http"
+
+networks:
+  web:
+    external: true
+```
+
+並寫個 index.html 來區別這個 domain 的服務
+
+```html
+418 I'm a teapot
+```
+
+完成後資料夾結構會是這樣：
+
+```sh
+/media/3TB/web
+├── docker-compose.yml # ← nginx
+├── nginx
+│   ├── conf.d
+│   │   └── flandre.tw.conf
+│   └── logs
+├── w2
+│   ├── docker-compose.yml # ← python-http-server
+│   └── index.html # ← 418
+└── www
+    └── flandre.tw # ← nginx root
+        └── index.php # ← 200
+```
+
+最後在 web/w2 部屬這個小伺服器
+
+```sh
+/media/3TB/web/w2 $ docker-compose up -d
+```
+
+用 curl 驗證一下
+
+```sh
+$ curl -L flandre.tw
+200 ok
+$ curl -L www.flandre.tw
+418 I'm a teapot
 ```
