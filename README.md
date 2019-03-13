@@ -145,6 +145,7 @@ services:
       - net-nginx-php # 下面解釋
     expose:
       - "9000" # nginx 會用 :9000 呼叫 php 的 fastcgi
+      # 可參考 https://github.com/docker-library/php/blob/master/7.3/alpine3.9/fpm/Dockerfile#L226
     volumes:
       - "$LOCAL_VOLUME:/var/www/$DOMAIN" # 這個是伺服器服務的根，為了讓 php 看得到檔案
 
