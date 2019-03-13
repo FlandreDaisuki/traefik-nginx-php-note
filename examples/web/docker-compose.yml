@@ -22,7 +22,7 @@ services:
       - "traefik.basic.port=80"
       - "traefik.basic.protocol=http"
   php:
-    image: php:fpm
+    image: php:fpm-alpine
     container_name: web-php
     networks:
       - net-nginx-php

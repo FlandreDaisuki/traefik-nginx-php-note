@@ -86,7 +86,7 @@ onHostRule = true
 這個網路上已經一堆教學了不多做介紹
 
 ```sh
-$ docker pull nginx:alpine php:fpm
+$ docker pull nginx:alpine php:fpm-alpine
 ```
 
 ## 設置 nginx
@@ -139,7 +139,7 @@ services:
       # 可參考 https://github.com/nginxinc/docker-nginx/blob/master/mainline/alpine/Dockerfile#L142
       - "traefik.basic.protocol=http"
   php:
-    image: php:fpm
+    image: php:fpm-alpine
     container_name: web-php
     networks:
       - net-nginx-php # 下面解釋
