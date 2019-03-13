@@ -12,6 +12,7 @@
   - [設置 nginx](#設置-nginx)
   - [部屬伺服器](#部屬伺服器)
   - [實驗驗證](#實驗驗證)
+  - [Q&A](#qa)
 
 ## 需求前提
 
@@ -302,4 +303,13 @@ $ curl -L flandre.tw
 200 ok
 $ curl -L www.flandre.tw
 418 I'm a teapot
+```
+
+## Q&A
+
+Q: 為什麼不全部放在 /media/3TB 裡面，要另外把 traefik 的設定放在 ~/traefik ？
+
+```txt
+因為我的硬碟是 NTFS，他不給我 chmod，而 acme.json 權限必須是 600
+(´・ω・`)
 ```
