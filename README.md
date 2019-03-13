@@ -2,7 +2,7 @@
 
 因為想架的服務大家都想要 :80 跟 :443，但我只有單機電腦，所以必須架一層 proxy manager 來根據 path 來轉到各種服務
 
-DevOps 台灣的 tg 群推薦了 traefik 這個工具覺得不錯
+[DevOps 台灣](https://t.me/devopstw)推薦了 [traefik](https://traefik.io/) 這個工具覺得不錯
 
 - [traefik-nginx-php-note](#traefik-nginx-php-note)
   - [需求前提](#需求前提)
@@ -20,7 +20,7 @@ DevOps 台灣的 tg 群推薦了 traefik 這個工具覺得不錯
 
 ## 安裝 traefik
 
-先用兩張圖還介紹和解釋 traefik 做了什麼
+先用 traefik 官方文件的兩張圖來介紹和解釋 traefik 做了什麼
 
 ![traefik architecture](traefik-architecture.png)
 
@@ -28,7 +28,7 @@ DevOps 台灣的 tg 群推薦了 traefik 這個工具覺得不錯
 
 對外讓 :80 :443 接到 traefik，traefik 根據 hostname/path 跟內部 port 接到各個服務
 
-最後安裝 traefik 就一行指令：
+而安裝 traefik 就一行指令：
 
 ```sh
 $ docker pull traefik
