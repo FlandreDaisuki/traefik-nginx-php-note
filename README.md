@@ -171,7 +171,7 @@ server {
     error_log  /etc/nginx/logs/flandre.tw/error.log;
     access_log /etc/nginx/logs/flandre.tw/access.log;
 
-    # 下面兩個對應伺服器 docker-compose.yml 的 services.nginx.volumes 的第四項
+    # 下面這個對應伺服器 docker-compose.yml 的 services.nginx.volumes 的第四項
     root /var/www/flandre.tw;
 
     location ~ \.php$ {
