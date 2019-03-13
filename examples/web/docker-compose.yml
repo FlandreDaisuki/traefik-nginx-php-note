@@ -1,0 +1,38 @@
+version: "3.6"
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: web-nginx
+    restart: unless-stopped
+    networks:
+      - web
+      - net-nginx-php
+    depends_on:
+      - php
+    volumes:
+      - "./nginx/conf.d:/etc/nginx/conf.d"
+      - "./nginx/logs/$DOMAIN:/etc/nginx/logs/$DOMAIN"
+      - "./nginx/logs:/var/log/nginx/logs"
+      - "$LOCAL_VOLUME:/var/www/$DOMAIN"
+    labels:
+      - "traefik.docker.network=web"
+      - "traefik.enable=true"
+      - "traefik.basic.frontend.rule=Host:$DOMAIN"
+      - "traefik.basic.port=80"
+      - "traefik.basic.protocol=http"
+  php:
+    image: php:fpm
+    container_name: web-php
+    networks:
+      - net-nginx-php
+    expose:
+      - "9000"
+    volumes:
+      - "$LOCAL_VOLUME:/var/www/$DOMAIN"
+
+networks:
+  web:
+    external: true
+  net-nginx-php:
+    name: net-nginx-php
