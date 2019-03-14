@@ -88,7 +88,8 @@ onHostRule = true
 這個網路上已經一堆教學了不多做介紹
 
 ```sh
-$ docker pull nginx:alpine php:fpm-alpine
+$ docker pull nginx:alpine
+$ docker pull php:fpm-alpine
 ```
 
 ## 設置 nginx
